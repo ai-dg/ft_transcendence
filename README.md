@@ -8,13 +8,13 @@ ft_transcendence is an ongoing project aimed at creating a **multiplayer Pong we
 This project is developed by a **team of four**, including [Christophe Albor Pirame](https://github.com/CronopioSalvaje).  
 
 ## ▌ Project Status 🚧  
-■ **Docker infrastructure set up**, including:  
+### ■ **Docker infrastructure set up**, including:  
 ▸ **Nginx** (reverse proxy)  
 ▸ **Gunicorn & Daphne** (for Django and WebSockets)  
 ▸ **PostgreSQL** (database)  
 ▸ **Redis** (session and WebSocket management)  
 
-■ **Backend development in progress**:  
+### ■ **Backend development in progress**:  
 ▸ WebSocket support for real-time connections  
 ▸ **AI implementation** for solo mode  
 ▸ **Basic Pong game**, but no advanced features yet  
@@ -29,13 +29,13 @@ This project is developed by a **team of four**, including [Christophe Albor Pir
 ✔ Add a **ranking and statistics system**  
 
 ## ▌ Installation & Launch  
-■ **Clone the repository**
+### ■ **Clone the repository**
 ```sh
 git clone https://github.com/ai-dg/ft_transcendence.git  
 cd ft_transcendence  
 ```
 
-■ **Environnement file**
+### ■ **Environnement file**
 Add .env file in srcs/ with the any following credentials:
 ```env
 HOME=$HOME
@@ -45,12 +45,12 @@ POSTGRES_DB="database"
 DJANGO_ENV=DEV
 ```
 
-■ **Start the services with Docker**
+### ■ **Start the services with Docker**
 ```sh
 make
 ```
 
-■ **Access the application**  
+### ■ **Access the application**  
 The app will be available at `http://127.0.0.1:8000/`.  
 
 ## ▌ Technologies Used  
