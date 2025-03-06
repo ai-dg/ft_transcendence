@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pong</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/chat.css' %}">
+    <link rel="stylesheet" href="{% static 'css/wrapper.css' %}">
+    <script type="module" src="{% static 'js/app.js' %}"></script>
+</head>
+<body>
+    {% csrf_token %}
+    {% if logged %}
+    <div class="container">
+        <canvas id="scoreCanvas"></canvas>
+        <div id="scoreText"></div>
+    </div>
+    <div class="container">
+        <canvas id="gameCanvas"></canvas>
+    </div>
+    <div class="nav">
+        <div class="button" id="new_game">New Game
+            <div class="gameOption">
+                <div class="button">1 Vs 1</div>
+                <div class="button">1 Vs computer</div>
+                <div class="button">Network</div>
+            </div></div>
+        <div class="button" id="stop_game">Stop Game</div>
+        <div class="button">Best Scores</div>
+        <div class="button">Keyboard Setup</div>
+        <div class="button" id="chat">Chat</div>
+    {% endif %}
+        {% if not logged %}
+        <div class="button" id="signup">Sign Up</div>
+        <div class="button" id="signin">Sign In</div>
+        {% else %}
+        <div class="button" id="logout">Logout</div>
+        {% endif %}
+    </div>
+    {% include "pong/chat.html" %}
+    {% include "pong/signup.html" %}
+    {% include "pong/signin.html" %}
+</body>
+</html>

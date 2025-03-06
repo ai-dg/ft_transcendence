@@ -1,0 +1,138 @@
+
+services:
+  nginx:
+    container_name: nginx
+    build: 
+      context: .
+      args:
+        DJANGO_ENV: ${DJANGO_ENV}
+      dockerfile: ./requirements/nginx/Dockerfile
+    ports:
+      - 443:443
+      - 16443:16443
+    networks:
+      - transcendance
+    volumes:
+      - backend:/app/data
+    restart: unless-stopped
+    environment:
+      - DJANGO_ENV=${DJANGO_ENV}    
+    depends_on:
+      - gunicorn
+      - daphne
+
+  gunicorn:
+    container_name: gunicorn
+    build: 
+      context: .
+      dockerfile: ./requirements/gunicorn/Dockerfile
+    ports:
+      - 8000:8000
+    volumes:
+      - backend:/app/data
+    environment:
+      - DJANGO_SETTINGS_MODULE=server.settings
+      - DJANGO_ENV=${DJANGO_ENV}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+    networks:
+      - transcendance
+    restart: unless-stopped 
+    depends_on:
+      - postgres
+
+  daphne:
+    container_name: daphne
+    build: 
+      context: .
+      dockerfile: ./requirements/daphne/Dockerfile
+    ports:
+      - 8001:8001
+    volumes:
+      - backend:/app/data
+    networks:
+      - transcendance
+    environment:
+      - DJANGO_SETTINGS_MODULE=server.settings
+      - DJANGO_ENV=${DJANGO_ENV}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - REDIS_URL=redis://redis:6379/0
+    restart: unless-stopped
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    container_name: postgres
+    build:
+      context: .
+      dockerfile: ./requirements/postgres/Dockerfile
+    ports: 
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - bdd:/var/lib/postgresql/data
+    networks:
+      - transcendance
+
+  redis:
+    container_name: redis
+    build:
+      context: .
+      dockerfile: requirements/redis/Dockerfile
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes --protected-mode no
+    networks:
+      - transcendance
+    restart: unless-stopped
+
+  # nodejs:
+  #   container_name: nodejs
+  #   build:
+  #     context: .
+  #     dockerfile: ./requirements/nodejs/Dockerfile
+  #   ports: 
+  #     - 8080:8080
+  #   volumes:
+  #     - nodejs:/app/nodejs
+  #   networks:
+  #     - transcendance
+
+
+networks:
+  transcendance:
+    driver: bridge
+
+volumes:
+  backend:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./backend
+  nodejs:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./requirements/nodejs/backend/
+      #device: ${HOME}/data/backend
+  bdd:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${HOME}/data/database
