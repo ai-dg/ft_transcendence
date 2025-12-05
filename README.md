@@ -33,6 +33,7 @@
 - [Project Status](#-project-status)
 - [Features](#-features)
 - [Installation & Launch](#-installation--launch)
+- [Makefile Options](#-makefile-options)
 - [Technologies Used](#-technologies-used)
 - [License](#-license)
 
@@ -142,10 +143,15 @@ or
 make up
 ```
 
-### ■ **Makefile Options**
+### ■ **Access the application**
 
-<details>
-<summary><b>Startup and Deployment</b></summary>
+The application will be available at `http://127.0.0.1:8000/` (or according to the `PORT_NGINX_HTTP` configuration in your `.env` file).
+
+---
+
+## ▌ Makefile Options
+
+### **Startup and Deployment**
 
 | Command | Description |
 |---------|-------------|
@@ -153,10 +159,7 @@ make up
 | `make build` | Builds Docker images without starting them |
 | `make re` | Completely rebuilds the project (removes images and restarts) |
 
-</details>
-
-<details>
-<summary><b>Stop and Cleanup</b></summary>
+### **Stop and Cleanup**
 
 | Command | Description |
 |---------|-------------|
@@ -164,10 +167,7 @@ make up
 | `make downv` | Stops containers and removes volumes (database, migrations, venv) |
 | `make clean` | Removes all Docker images and cleans the cache |
 
-</details>
-
-<details>
-<summary><b>ELK Stack and Logging</b></summary>
+### **ELK Stack and Logging**
 
 | Command | Description |
 |---------|-------------|
@@ -178,29 +178,17 @@ make up
 | `make stop-logs` | Stops log tracking |
 | `make check-pids` | Checks logging processes |
 
-</details>
-
-<details>
-<summary><b>Monitoring</b></summary>
+### **Monitoring**
 
 | Command | Description |
 |---------|-------------|
 | `make logs` | Displays Nginx container logs |
 
-</details>
-
-<details>
-<summary><b>Update</b></summary>
+### **Update**
 
 | Command | Description |
 |---------|-------------|
 | `make update-static` | Updates static files (installs npm dependencies and collects static files) |
-
-</details>
-
-### ■ **Access the application**
-
-The application will be available at `http://127.0.0.1:8000/` (or according to the `PORT_NGINX_HTTP` configuration in your `.env` file).
 
 ---
 
@@ -228,13 +216,3 @@ It is intended for **academic purposes only** and follows the evaluation require
 
 Unauthorized public sharing or direct copying for **grading purposes** is discouraged.  
 If you wish to use or study this code, please ensure it complies with **your school's policies**.
-
----
-
-<div align="center">
-
-**Made by the ft_transcendence team**
-
-[Back to Top](#ft_transcendence)
-
-</div>  
