@@ -3,6 +3,7 @@
 <img src="https://github.com/user-attachments/assets/1aa4d9ed-48d6-4b37-a78c-d31b53f84e5d" width="500" height="500">  
 <img src="https://github.com/user-attachments/assets/cf7eea26-50fd-4eb7-9938-efa887c71ce7" width="500" height="500">  
 
+![Score](https://img.shields.io/badge/Score-121%25-brightgreen)  
 📌 **42 School - Web Development & DevOps Project**  
 
 ## ▌ Description  
