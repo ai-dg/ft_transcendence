@@ -1,0 +1,24 @@
+{% load static %}
+<div data-bs-theme="dark" class="container index_ready w-50 h-80 d-flex align-self-center flex-column d-none closer" id="JoinGameWrapper">
+
+    <cross-element target="JoinGameWrapper"></cross-element>
+    <div class="container overflow-auto">
+        <div class="container">
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" checked>
+            <label class="btn btn-outline-primary" for="btnradio2">Player VS Player
+                <span class="d-none badge rounded-pill bg-danger pills" id="isgame"></span>
+            </label>
+            
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio3">
+            <label class="btn btn-outline-primary" for="btnradio3">Tournament
+                <span class="d-none badge rounded-pill bg-danger pills" id="istournament"></span>
+            </label>
+        </div>
+        
+        <h3 class="text-light mt-2 d-none" id="no-games">No games available</h3>
+        <div class="container overflow-auto mt-4" id="joingame_list">
+        </div>
+        <div class="container overflow-auto mt-4 d-none" id="tournament_list">
+        </div>
+    </div>
+</div>  

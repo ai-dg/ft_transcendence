@@ -1,0 +1,13 @@
+channels
+channels-redis
+daphne
+django
+django-cors-headers
+django-environ
+django-redis
+gunicorn
+pillow
+psycopg2-binary
+python-json-logger
+redis
+requests

@@ -1,0 +1,58 @@
+:root{
+    --bg-chat: rgba(27, 25, 25, 0.7);
+    --border: 10px;
+}
+
+
+
+
+.connected{
+    color: white;
+    padding: 8px 2px 8px 10px;
+    background-color: rgb(19, 14, 14);
+}
+
+.connected:hover{
+    color: white;
+    padding: 8px 2px 8px 10px;
+    background-color: rgb(131, 43, 43);
+}
+
+
+.sender
+{
+    background-color: rgb(55, 55, 139);   
+    position: relative;
+    right: 0px;
+}
+.reciever
+{
+    background-color: rgb(44, 26, 26);
+    position: relative;
+    left: 0px;
+}
+.msg{   
+    display: block;
+    max-width: 80%;
+    width: fit-content;
+    border-radius: var(--border);
+    color : white;
+    text-align: left;
+    padding: 4px;
+    margin: 3px;
+}
+
+.chatbox{
+    background-color: var(--bg-chat);
+    border: 1px solid white;
+    border-radius: var(--border);
+    width: 80%;
+    backdrop-filter: blur(10px);
+    height: 80vh;   
+    display: block;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 2%;
+    overflow: ;
+}

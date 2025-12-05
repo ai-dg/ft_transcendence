@@ -1,0 +1,369 @@
+@import 'emoji.css';
+
+:root{
+    --bg-chat: rgba(27, 25, 25, 0.7);
+    --border: 10px;
+}
+
+
+.chatbox{
+    background-color: var(--bg-chat);
+    border: 1px solid white;
+    border-radius: var(--border);
+    width: 80%;
+    backdrop-filter: blur(10px);
+    height: 80vh;   
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%,-55%);
+    top: 50%;
+    overflow: hidden;
+}
+
+.modified_message{
+    font-size: 10px;
+    color: #5c5c5c;
+    font-style: oblique;
+}
+
+.message_date{
+    display: none;
+    font-size: 9px;
+    color: #5c5c5c;
+    position: absolute;
+    top: 5px;
+    left: -75px;
+    height: 11px;
+    width: 80px;
+    text-align: center;
+}
+
+.game-alert{
+    text-align: center;
+    padding: 2px;
+    color: #b1b1b1;
+    font-weight: bold;
+    width: 400px;
+    position: absolute;
+    top : 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
+.msg-content:focus {
+    outline: none; /* supprime le contour par défaut */
+    border: 1px solid #1a1d1f; /* remplace par un contour customisé si tu veux */
+    background-color: #201f1f;
+
+}
+
+.msg-options{
+
+    /* justify-content: center; */
+    display: none;
+    height: 26px;
+    width: 100px;
+    /* border: 1px solid rgba(255,255,255,0.1); */
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0,0.2);
+    position :absolute;
+    top : 5px;
+    right: 0px;
+}
+
+.chatwrapper{
+    position: relative;
+    display:flex;
+    height: 100%;
+    z-index: 900;
+}
+
+.folders{
+    height: 20px;
+    width: 20px;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;    
+}
+
+.fold{
+    transform: rotate(180deg);
+}
+.connected_users_wrapper {
+    height: auto;
+    overflow: hidden;
+}
+
+.connected_users, .banned_users {
+    transition: max-height 0.5s ease-in;
+}
+
+
+.window-hide {
+    max-height: 0px; 
+    overflow: hidden;
+
+}
+
+.window-open {
+    max-height: 500px; 
+}
+
+.users_window{
+    display: block;
+    background-color: rgb(22, 21, 21);
+    border: 1px solid rgb(83, 80, 80);
+    height: 100%;
+    width: 20%;
+    padding: 5px;
+}
+
+
+.chatwindow{
+    position: relative;
+    display: block;
+    height: 100%;
+    width: 60%;
+    overflow-y: auto;
+    border: 1px solid rgb(122, 121, 121);
+    background-color: var(--bg-chat);
+    padding: 5px;
+}
+
+.rightbar{
+    display: block;
+    height: 100%;
+    width: 20%;
+
+}
+
+.userinfo
+{
+    background-color: rgb(34, 34, 34);
+    display: flex;
+    flex-direction: column;
+    color : white;
+    align-items: center;
+    font-size: xx-large;
+    justify-content: center;
+    padding: 3px;
+    height: 40%;
+    border: 1px solid rgb(122, 121, 121);
+}
+
+
+.chatmessages{
+    height: 87%;
+    overflow-y: auto;
+    /* border: 1px solid rgb(122, 121, 121); */
+}
+
+.room_name, .legend{
+    user-select: none;
+    height: 30px;
+    color: white;
+    position: relative;
+    font-size: 16px;
+    padding: 5px;
+    border: 1px solid rgba(255,255,255,0.3);
+    background-color: rgba(0, 0, 0,0.8);
+}
+
+.legend{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;    
+}
+
+chat-room{
+    display: block;
+    height: 100%;
+}
+
+.textfield
+{
+    display: block;
+    text-align: left;   
+    position: absolute;
+    width: 98%;
+    bottom: 15px;
+    background-color: #242424;
+    z-index: 99;
+}
+
+#chat_text
+{
+    display: block;
+    z-index: 100;
+    background-color: #242424;
+    width: 99%;
+    border-radius: 5px;
+}
+
+.connected{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: white;
+    padding: 8px 2px 8px 10px;
+    user-select: none;
+    background-color: rgb(19, 14, 14);
+    cursor: pointer;
+}
+
+.connected > *:last-child {
+    margin-right: 15px;
+}
+
+.ban{
+    color :red;
+}
+
+.unban{
+    color: green;
+}
+
+.connected:hover{
+    color: white;
+    padding: 8px 2px 8px 10px;
+    background-color: rgb(78, 71, 71)
+}
+
+.msg{   
+    display: block;
+    width: 90%;
+    color : white;
+    text-align: left;
+    padding: 4px;
+    margin: 3px;
+    position: relative;
+    left: 70px;
+    overflow-wrap: break-word;
+}
+.msg:hover{
+    cursor: pointer;
+    background-color: rgba(0, 0, 0,0.2);
+}
+
+.sender{
+    color:#b1b1b1;
+    height: 40px;
+}
+
+.icons{
+    z-index: 11;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 24px;
+    width: 24px;
+    margin: 1px;
+}
+
+.icons:hover
+{
+    background-color:#272626;
+    border-radius: 5px;
+    font-size: larger;
+}
+
+
+input[type="text"]#chat_text {
+    -webkit-appearance: none; 
+    -moz-appearance: none;  
+    appearance: none;          
+    border: none;
+    background: #242424;
+    background-color: #242424;
+    color: white;
+    z-index: 100;
+    width: 100%;
+    margin-top: 4px;
+    padding: 3px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s ease;
+  }
+  
+  input[type="text"]:focus {
+    border-color: #cacaca;
+    outline: none;
+  }
+
+
+
+
+
+ .activerooms{
+    color: white;
+    height: 60%
+  }
+
+.room {
+    user-select: none;
+    background-color: rgb(34, 34, 34);
+    position: relative;
+    height: 6%;
+    display: flex;
+    align-items: center; /* Centrer verticalement */
+    padding: 3px;
+  }
+
+.room:hover{
+    background-color: rgb(99, 97, 97);
+    cursor: pointer;
+}
+
+.activeroom{
+      background-color: rgb(78, 71, 71);
+  }
+  
+.newmessage{
+    height: 6px;
+    width: 6px;
+    border-radius: 50%;
+    background-color: rgb(8, 133, 35);
+    position: absolute; right: 5px;
+  }
+
+
+.close-cross{
+    height: 20px;
+    width: 20px;
+    /* border: 1px solid white; */
+    position: absolute;
+    top : 2px;
+    right: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.line-cross {
+    position: absolute;
+    height: 1px;
+    width: 20px;
+    background-color: white;
+}
+
+.line-top {
+    transform: rotate(45deg);
+}
+.line-bottom {
+    transform: rotate(-45deg) ;
+}
+
+
+.chat_date{
+    font-size: 9px;
+    color: #5c5c5c;
+}
+
+.avatar-msg-wrap{
+    position: absolute;
+    left: -50px;
+    top: 5px;
+
+}

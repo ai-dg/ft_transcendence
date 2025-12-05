@@ -1,58 +1,20 @@
 
 services:
-  nginx:
-    container_name: nginx
-    build: 
-      context: .
-      args:
-        DJANGO_ENV: ${DJANGO_ENV}
-      dockerfile: ./requirements/nginx/Dockerfile
-    ports:
-      - 443:443
-      - 16443:16443
-    networks:
-      - transcendance
-    volumes:
-      - backend:/app/data
-    restart: unless-stopped
-    environment:
-      - DJANGO_ENV=${DJANGO_ENV}    
-    depends_on:
-      - gunicorn
-      - daphne
 
-  gunicorn:
-    container_name: gunicorn
-    build: 
-      context: .
-      dockerfile: ./requirements/gunicorn/Dockerfile
-    ports:
-      - 8000:8000
-    volumes:
-      - backend:/app/data
-    environment:
-      - DJANGO_SETTINGS_MODULE=server.settings
-      - DJANGO_ENV=${DJANGO_ENV}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_HOST=postgres
-      - POSTGRES_PORT=5432
-    networks:
-      - transcendance
-    restart: unless-stopped 
-    depends_on:
-      - postgres
+######################################################################
+#************************** 📦 BACKEND *******************************
+######################################################################
 
   daphne:
     container_name: daphne
     build: 
       context: .
-      dockerfile: ./requirements/daphne/Dockerfile
+      dockerfile: ./requirements/backend/daphne/Dockerfile
     ports:
-      - 8001:8001
+      - "${PORT_DAPHNE}:8001"
     volumes:
-      - backend:/app/data
+      - app:/app/data
+      - venvdata:/app/data/venv
     networks:
       - transcendance
     environment:
@@ -65,39 +27,196 @@ services:
       - POSTGRES_PORT=5432
       - REDIS_URL=redis://redis:6379/0
     restart: unless-stopped
+    depends_on:
+      - gunicorn
+      - postgres
+      - dependencies
     env_file:
       - .env
+    
+  django:
+    container_name: django
+    build:
+      context: .
+      dockerfile: ./requirements/backend/django/Dockerfile
+    volumes:
+      - app:/app/data
+    environment:
+      - DJANGO_SETTINGS_MODULE=server.settings
+      - DJANGO_ENV=${DJANGO_ENV}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - REDIS_URL=redis://redis:6379/0
+      - LENGTH_OF_STATE=${LENGTH_OF_STATE}
+      - OAUTH42_USER_INFO_URL=${OAUTH42_USER_INFO_URL}
+      - OAUTH42_AUTHORIZE_URL=${OAUTH42_AUTHORIZE_URL}
+      - OAUTH42_TOKEN_URL=${OAUTH42_TOKEN_URL}
+      - OAUTH42_UID=${OAUTH42_UID}
+      - OAUTH42_SECRET=${OAUTH42_SECRET}
+    networks:
+      - transcendance
     depends_on:
       - postgres
-      - redis
+      - dependencies
+    command: sleep infinity
+    env_file:
+      - .env
+  
+  gunicorn:
+    container_name: gunicorn
+    build: 
+      context: .
+      dockerfile: ./requirements/backend/gunicorn/Dockerfile
+    # ports:
+    #   - "${PORT_GUNICORN}:8000"
+    volumes:
+      - app:/app/data
+      - venvdata:/app/data/venv
+    environment:
+      - DJANGO_SETTINGS_MODULE=server.settings
+      - DJANGO_ENV=${DJANGO_ENV}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - LENGTH_OF_STATE=${LENGTH_OF_STATE}
+      - OAUTH42_USER_INFO_URL=${OAUTH42_USER_INFO_URL}
+      - OAUTH42_AUTHORIZE_URL=${OAUTH42_AUTHORIZE_URL}
+      - OAUTH42_TOKEN_URL=${OAUTH42_TOKEN_URL}
+      - OAUTH42_UID=${OAUTH42_UID}
+      - OAUTH42_SECRET=${OAUTH42_SECRET}
+    networks:
+      - transcendance
+    restart: unless-stopped 
+    depends_on:
+      - postgres
+      - dependencies
+    env_file:
+      - .env
+    
+######################################################################
+#*************************🚀 CORE SERVICES ***************************
+######################################################################
 
+  dependencies:
+    container_name: dependencies
+    build:
+      context: .
+      dockerfile: ./requirements/core/dependencies/Dockerfile
+    volumes:
+      - venvdata:/app/data/venv
+    env_file:
+      - .env
+        
   postgres:
     container_name: postgres
     build:
       context: .
-      dockerfile: ./requirements/postgres/Dockerfile
+      dockerfile: ./requirements/core/postgres/Dockerfile
     ports: 
-      - 5432:5432
+      - "${PORT_POSTGRES}:5432"
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
     volumes:
-      - bdd:/var/lib/postgresql/data
+      - bdd:/var/lib/postgresql
     networks:
       - transcendance
-
+    env_file:
+      - .env
+    
   redis:
     container_name: redis
     build:
       context: .
-      dockerfile: requirements/redis/Dockerfile
-    ports:
-      - "6379:6379"
-    command: redis-server --appendonly yes --protected-mode no
+      dockerfile: ./requirements/core/redis/Dockerfile
     networks:
       - transcendance
-    restart: unless-stopped
+    command: ["redis-server", "/etc/redis/redis.conf", "--appendonly yes", "--protected-mode no" ]
+    env_file:
+      - .env
+    
+######################################################################
+#************************** 📊 ELK STACK *****************************
+######################################################################
+
+  elasticsearch:
+    container_name: elasticsearch
+    build:
+      context: .
+      dockerfile: ./requirements/elk/elasticsearch/Dockerfile
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=true
+      - xpack.monitoring.enabled=false
+      - xpack.ml.enabled=false
+      - xpack.graph.enabled=false
+      - xpack.watcher.enabled=false
+      - ELASTIC_USERNAME=${ELASTIC_USERNAME}
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    mem_limit: 1g
+    memswap_limit: 1g
+    volumes:
+      - logsdata:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    networks:
+      - transcendance
+    healthcheck:
+      test: ["CMD-SHELL", "curl -u $${ELASTIC_USERNAME}:$${ELASTIC_PASSWORD} -f http://localhost:9200 || exit 1"]
+      interval: 120s
+      timeout: 120s
+      retries: 5
+    env_file:
+      - .env
+    
+  kibana:
+    container_name: kibana
+    build:
+      context: .
+      dockerfile: ./requirements/elk/kibana/Dockerfile
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - ELASTICSEARCH_USERNAME=${ELASTIC_USERNAME}
+      - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD}
+    ports:
+      - "${PORT_KIBANA}:5601"
+    depends_on:
+      - elasticsearch
+    networks:
+      - transcendance
+    env_file:
+      - .env
+    
+  logstash:
+    container_name: logstash
+    build:
+      context: .
+      dockerfile: ./requirements/elk/logstash/Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - transcendance
+    volumes:
+      - ./requirements/elk/logstash/conf/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - ./logs:/usr/share/logstash/input_logs:ro
+    privileged: true
+    env_file:
+      - .env
+    
+######################################################################
+#************************** 🎂​ FRONTEND ******************************
+######################################################################
 
   # nodejs:
   #   container_name: nodejs
@@ -111,28 +230,79 @@ services:
   #   networks:
   #     - transcendance
 
+######################################################################
+#************************** 🧬 PROXY / NGINX *************************
+######################################################################
+
+  nginx:
+    container_name: nginx
+    build: 
+      context: .
+      args:
+        DJANGO_ENV: ${DJANGO_ENV}
+      dockerfile: ./requirements/proxy/nginx/Dockerfile
+    ports:
+      - "${PORT_NGINX_HTTP}:80"
+      - "${PORT_NGINX_HTTPS}:443"
+    networks:
+      - transcendance
+    volumes:
+      - app:/app/data
+    restart: unless-stopped
+    environment:
+      - DJANGO_ENV=${DJANGO_ENV}    
+    depends_on:
+      - gunicorn
+      - daphne
+      - dependencies
+    env_file:
+      - .env
+    
+######################################################################
+######################### 🌐​ NETWORKS & VOLUMES ######################
+######################################################################
 
 networks:
   transcendance:
     driver: bridge
 
 volumes:
-  backend:
+  # ■​ Django application source code & shared data volume
+  app:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ./backend
-  nodejs:
+      device: ./app
+
+  # ■ Virtual environment for Python dependencies
+  venvdata:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ./requirements/nodejs/backend/
-      #device: ${HOME}/data/backend
+      device: ./app/venv
+
+  # ■​ PostgreSQL database storage
   bdd:
     driver: local
     driver_opts:
       type: none
       o: bind
       device: ${HOME}/data/database
+  
+  # ■​ Persistent logs for Elasticsearch
+  logsdata:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${HOME}/data/logsdata
+
+  # nodejs:
+  #   driver: local
+  #   driver_opts:
+  #     type: none
+  #     o: bind
+  #     device: ./requirements/frontend/nodejs/backend/
+  #     #device: ${HOME}/data/backend

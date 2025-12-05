@@ -1,0 +1,13 @@
+{
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  },
+  "name": "static-ts",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "vite build"
+  },
+  "dependencies": {
+    "vite": "^4.0.0"
+  }
+}

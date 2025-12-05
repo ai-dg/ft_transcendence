@@ -1,0 +1,26 @@
+{% load static %}
+<div data-bs-theme="dark" class="container index_ready w-50 h-80 m-auto d-flex align-self-center flex-column d-none closer" id="BestScoreWrapper">
+    <cross-element target="BestScoreWrapper"></cross-element>
+
+    <div class="container overflow-auto">
+
+        <h2 class="text-light" id="bestScoreTitle">Best Scores</h2>
+        <div class="container w-30">
+            <!-- <input type="radio" class="btn-check" name="btnradio_history" id="historybtn"> -->
+            <!-- <label class="btn btn-outline-primary" for="historybtn" id="historybtn_text">Show game history</label> -->
+            <button class="btn btn-outline-primary ms-2" id="historybtn">Show game history</button>
+        </div>
+
+        <div class="d-flex flex-column align-items-center justify-content-center" id="player_stats">
+            <span class="text-light mt-3 fs-3">Total games played: <span id="total_games_played">0</span></span>
+            <span class="text-light mt-3 fs-3">Total games won: <span id="total_games_won">0</span></span>
+            <span class="text-light mt-3 fs-3">Total points scored: <span id="total_points_scored">0</span></span>
+            <span class="text-light mt-3 fs-3">Total points conceded: <span id="total_points_conceded">0</span></span>
+            <span class="text-light mt-3 fs-3">Total tournaments played: <span id="total_tournaments_played">0</span></span>
+            <span class="text-light mt-3 fs-3">Total tournaments won: <span id="total_tournaments_won">0</span></span>
+        </div>
+
+        <div class="container overflow-auto d-none" id="history_games">
+        </div>
+    </div>
+</div>

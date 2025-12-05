@@ -1,0 +1,69 @@
+{% load static %}
+
+
+
+<div data-bs-theme="dark" class="container d-none flex-column justify-content-around align-items-center closer" id="avatarCropWrapper">
+    <cross-element target="avatarCropWrapper"></cross-element>
+    
+    <div class="avatar-view"><!--ici l'image chargée--></div>
+    
+    <div class="btn bg-black text-light mb-2" id="crop-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-aspect-ratio" viewBox="0 0 16 16">
+            <path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h13A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 12.5zM1.5 3a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5z"/>
+            <path d="M2 4.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1H3v2.5a.5.5 0 0 1-1 0zm12 7a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1 0-1H13V8.5a.5.5 0 0 1 1 0z"/>
+        </svg>
+        Crop Image
+    </div> 
+    
+</div>
+
+<div data-bs-theme="dark" class="container d-flex align-self-center justify-content-center flex-column d-none closer" id="userDetailsWrapper">
+    <cross-element target="userDetailsWrapper"></cross-element>
+    <div class="container overflow-auto">
+        
+        <h2 class="text-light pb-4">Edit your account</h2>
+        <div class="avatar-wrapper"></div>
+        <div class="avatar-preview d-flex align-self-center flex-column align-items-center" id="avatar-preview"></div>
+        <form class="mt-4" id="userDetailForm" method="POST" action="">
+            {% csrf_token %}
+            <div class="container d-flex flex-column col-8" id="inputs">
+                <div class="input-group pb-4">
+                    <span class="input-group-text">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-badge-fill" viewBox="0 0 16 16">
+                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm4.5 0a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1zM8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6m5 2.755C12.146 12.825 10.623 12 8 12s-4.146.826-5 1.755V14a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1z"/>
+                        </svg>
+                    </span>
+                    {% if tournament_pseudo %}
+                    <input class="form-control inputfield" type="text" placeholder="Tournament pseudo" name="pseudo" value={{ tournament_pseudo }} id="pseudo" required>
+                    {% else %}
+                    <input class="form-control inputfield" type="text" placeholder="Tournament pseudo" name="pseudo" id="pseudo" required>
+                    {% endif %}
+                </div> 
+                <br>
+                
+            </div>
+            <div class="container d-flex flex-column col-4">
+                <label for="avatar" class="btn bg-black text-light m-0 mb-2" id="change-avatar-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-bounding-box" viewBox="0 0 16 16">
+                        <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5M.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5"/>
+                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                    </svg>
+                    Change avatar 
+                </label>
+                <input type="file" name="avatar" id="avatar" placeholder="pick an imagefile">
+
+                
+
+
+                <div class="btn bg-black text-light" id="submit-user-infos">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy-fill" viewBox="0 0 16 16">
+                        <path d="M0 1.5A1.5 1.5 0 0 1 1.5 0H3v5.5A1.5 1.5 0 0 0 4.5 7h7A1.5 1.5 0 0 0 13 5.5V0h.086a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5H14v-5.5A1.5 1.5 0 0 0 12.5 9h-9A1.5 1.5 0 0 0 2 10.5V16h-.5A1.5 1.5 0 0 1 0 14.5z"/>
+                        <path d="M3 16h10v-5.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5zm9-16H4v5.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5zM9 1h2v4H9z"/>
+                    </svg>
+                    Save Changes
+                </div> 
+            </div>
+        </form>
+    </div>
+</div>
+         

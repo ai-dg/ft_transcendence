@@ -1,0 +1,27 @@
+body{
+    color : white;
+}
+
+.btns{
+    color:orangered;
+    cursor:pointer
+
+}
+
+.btns:hover
+{
+    text-decoration: underline;
+}
+
+
+#loginfields
+{
+    display: block;
+}
+
+
+
+#signupfields
+{
+    display: none;
+}

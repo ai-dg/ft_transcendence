@@ -1,0 +1,39 @@
+HOME=$HOME
+
+POSTGRES_USER=transcendance_user
+POSTGRES_PASSWORD=transcendance_pwd
+POSTGRES_DB=transcendance_db
+
+LENGTH_OF_STATE=16
+OAUTH42_USER_INFO_URL=
+OAUTH42_AUTHORIZE_URL=
+OAUTH42_TOKEN_URL=
+OAUTH42_UID=
+OAUTH42_SECRET=
+
+DJANGO_ENV=DEV
+
+# Le ELASTIC user ne doit pas etre change, c'est un user par defaut et c'est une vraie plaie changer cela.
+# En effet, des conflits se generent dans tous les sens lors de l'installation des conteneurs
+ELASTIC_USERNAME=elastic
+ELASTIC_PASSWORD=transcendance_elk
+
+
+PORT_NGINX_HTTP=18888
+
+# Acces au web-app avec localhost:18443 par exemple
+PORT_NGINX_HTTPS=18443
+
+
+PORT_DAPHNE=18001
+PORT_KIBANA=15601
+PORT_POSTGRES=15432
+
+# Attention, ce port est en commentaire dans le yml
+# En fait, le site doit etre uniquement accessible via nginx et pas gunicorn directement 
+PORT_GUNICORN=18000
+
+ALLOWED_IP_HOST_CASE_VM=10.12.2.10
+# Il sert pour indiquer l'IP pour acceder au site depuis une machine exterieur
+# Il est rempli tout seul depuis le script /orchestration/find_ip.sh
+ALLOWED_IP=192.168.1.146
