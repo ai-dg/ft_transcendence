@@ -1,6 +1,10 @@
 # ft_transcendence - Multiplayer Pong Web App  
 
-<img src="https://github.com/user-attachments/assets/e8c80a12-b4e7-4822-91d0-c41c24bbb6e1" width="500">
+<img src="https://github.com/user-attachments/assets/1aa4d9ed-48d6-4b37-a78c-d31b53f84e5d" width="500">
+
+<img src="https://github.com/user-attachments/assets/cf7eea26-50fd-4eb7-9938-efa887c71ce7" width="500">
+
+
 
 📌 **42 School - Web Development & DevOps Project**  
 
