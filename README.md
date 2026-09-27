@@ -6,7 +6,7 @@
 
 ![Score](https://img.shields.io/badge/Score-121%25-brightgreen)
 ![42 School](https://img.shields.io/badge/42-School-blue)
-![Django](https://img.shields.io/badge/Django-4.2-green)
+![Django](https://img.shields.io/badge/Backend-Django-green)
 ![Docker](https://img.shields.io/badge/Docker-Ready-blue)
 
 **42 School - Web Development & DevOps Project**
@@ -72,7 +72,6 @@ This project is developed by a **team of four**, including [Christophe Albor Pir
 | Remote Players | ✅ | Multiplayer support for remote connections |
 | Live Chat | ✅ | Real-time chat functionality with WebSockets |
 | AI Opponent | ✅ | AI implementation for solo mode |
-| 2FA & JWT | ✅ | Enhanced security with 2FA and JWT tokens |
 | Log Management | ✅ | ELK stack integration for centralized logging |
 | Server-Side Pong & API | ✅ | Server-side game logic with RESTful API |
 
@@ -82,7 +81,6 @@ This project is developed by a **team of four**, including [Christophe Albor Pir
 |--------|--------|-------------|
 | Frontend Framework | ✅ | Frontend framework/toolkit integration |
 | Database | ✅ | PostgreSQL database implementation |
-| Monitoring | ✅ | Application monitoring and observability |
 | SSR Integration | ✅ | SSR capabilities for improved performance |  
 
 ## ▌ Features  
@@ -92,7 +90,6 @@ This project is developed by a **team of four**, including [Christophe Albor Pir
 | Feature | Description |
 |---------|-------------|
 | **Full-stack** | Robust architecture with modern technologies |
-| **Secure Authentication** | 2FA and JWT token-based security |
 | **Remote Authentication** | OAuth support for external authentication |
 | **Real-time Multiplayer** | WebSocket-based live matches |
 | **AI Opponent** | Intelligent AI for solo play |
@@ -100,7 +97,6 @@ This project is developed by a **team of four**, including [Christophe Albor Pir
 | **Tournament System** | Complete tournament management |
 | **Server-side Logic** | API endpoints for game control |
 | **Centralized Logging** | ELK stack for log management |
-| **Monitoring** | Application observability |
 | **SSR** | Server-Side Rendering for performance |
 
 </div>  
@@ -145,7 +141,7 @@ make up
 
 ### ■ **Access the application**
 
-The application will be available at `http://127.0.0.1:8000/` (or according to the `PORT_NGINX_HTTP` configuration in your `.env` file).
+The application will be available at `https://localhost:18443/` or `http://localhost:18888/` (set by `PORT_NGINX_HTTPS` / `PORT_NGINX_HTTP` in your `.env` file).
 
 ---
 
@@ -184,12 +180,6 @@ The application will be available at `http://127.0.0.1:8000/` (or according to t
 |---------|-------------|
 | `make logs` | Displays Nginx container logs |
 
-### **Update**
-
-| Command | Description |
-|---------|-------------|
-| `make update-static` | Updates static files (installs npm dependencies and collects static files) |
-
 ---
 
 ## ▌ Technologies Used  
@@ -202,7 +192,7 @@ The application will be available at `http://127.0.0.1:8000/` (or according to t
 | **Frontend** | JavaScript, HTML, CSS, Server-Side Rendering (SSR) |
 | **Database** | PostgreSQL |
 | **Services** | Redis, Nginx, Docker, Gunicorn, Daphne |
-| **Security** | JWT (JSON Web Tokens), Two-Factor Authentication (2FA), OAuth |
+| **Security** | OAuth (42) |
 | **Monitoring & Logging** | ELK Stack (Elasticsearch, Logstash, Kibana) |
 
 </div>  
